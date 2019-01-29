@@ -73,6 +73,8 @@ export default class BurgerBuilder extends Component {
 
 	purchaseHandler = () => this.setState({ orderBtnClicked: true });
 
+	purchaseCancleHandler = () => this.setState({ orderBtnClicked: false });
+
 	render() {
 		const disabledInfo = {
 			...this.state.ingredients
@@ -82,7 +84,9 @@ export default class BurgerBuilder extends Component {
 		}
 		return (
 			<Aux>
-				<Modal show={this.state.orderBtnClicked}>
+				<Modal
+					show={this.state.orderBtnClicked}
+					modalClose={this.purchaseCancleHandler}>
 					<OrderSummary ingredients={this.state.ingredients} />
 				</Modal>
 				<Burger ingredients={this.state.ingredients} />
