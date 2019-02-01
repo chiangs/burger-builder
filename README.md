@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Noteable Features of the Code
+- Maximal use of pure function components
+- Separated `stateful` components in Containers
+- Usage of `Higher order components`
+- Safer pattern when changing state based on previous state.
+- Passing references and properties between multiple components
+- Responsive and conditional rendered components.
+- 
+
 ## Available Scripts
 
 In the project directory, you can run:
