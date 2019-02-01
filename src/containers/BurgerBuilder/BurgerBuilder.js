@@ -73,7 +73,9 @@ export default class BurgerBuilder extends Component {
 
 	purchaseHandler = () => this.setState({ orderBtnClicked: true });
 
-	purchaseCancleHandler = () => this.setState({ orderBtnClicked: false });
+	purchaseCancelHandler = () => this.setState({ orderBtnClicked: false });
+
+	purchaseContinueHandler = () => alert('Continue');
 
 	render() {
 		const disabledInfo = {
@@ -86,8 +88,12 @@ export default class BurgerBuilder extends Component {
 			<Aux>
 				<Modal
 					show={this.state.orderBtnClicked}
-					modalClose={this.purchaseCancleHandler}>
-					<OrderSummary ingredients={this.state.ingredients} />
+					modalClose={this.purchaseCancelHandler}>
+					<OrderSummary
+						ingredients={this.state.ingredients}
+						purchaseCanceled={this.purchaseCancelHandler}
+						purchaseContinue={this.purchaseContinueHandler}
+					/>
 				</Modal>
 				<Burger ingredients={this.state.ingredients} />
 				<BuildControls
