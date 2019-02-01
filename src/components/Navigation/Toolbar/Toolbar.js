@@ -6,9 +6,7 @@ import SideDrawerToggler from '../Toolbar/SidedrawerToggler/SidedrawerToggler';
 
 const toolbar = props => (
 	<header className={css.Toolbar}>
-		<section>
-			<SideDrawerToggler toggleHandler={props.toggleClick} />
-		</section>
+		<SideDrawerToggler toggleHandler={props.toggleClick} />
 		<section className={css.Logo}>
 			<Logo />
 		</section>
