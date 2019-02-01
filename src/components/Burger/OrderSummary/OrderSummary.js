@@ -18,6 +18,9 @@ const OderSummary = props => {
 			<p>A delicious burger built with:</p>
 			<ul>{ingredientSummary}</ul>
 			<p>Continue to checkout?</p>
+			<p>
+				<strong>Total: {props.price.toFixed(2)}</strong>
+			</p>
 			<Button clicked={props.purchaseCanceled} btnType="Danger">
 				CANCEL
 			</Button>
