@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import { ADD, REMOVE } from '../../Constants';
+import { ADD, REMOVE, DB } from '../../Constants';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import Axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
 	salad: 0.5,
@@ -75,7 +76,30 @@ export default class BurgerBuilder extends Component {
 
 	purchaseCancelHandler = () => this.setState({ orderBtnClicked: false });
 
-	purchaseContinueHandler = () => alert('Continue');
+	purchaseContinueHandler = () => {
+		const order = {
+			ingredients: this.state.ingredients,
+			price: this.state.price,
+			deliveryMethod: 'fastest',
+			customer: {
+				name: 'Navn Navnesen',
+				email: 'email@email.email',
+				address: {
+					street: 'Gate',
+					city: 'By',
+					postal: '4025',
+					country: 'Norge'
+				}
+			}
+		};
+		Axios.post(DB.ORDERS, order)
+			.then(response => {
+				console.error(response);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	};
 
 	render() {
 		const disabledInfo = {
@@ -92,7 +116,7 @@ export default class BurgerBuilder extends Component {
 					<OrderSummary
 						ingredients={this.state.ingredients}
 						purchaseCanceled={this.purchaseCancelHandler}
-						purchaseContinue={this.purchaseContinueHandler}
+						purchaseContinue={() => this.purchaseContinueHandler()}
 						price={this.state.totalPrice}
 					/>
 				</Modal>
