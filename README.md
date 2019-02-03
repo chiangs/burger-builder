@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+***Deployed App located [here](https://react-burger-builder-2019.netlify.com)***
+
 ## Noteable Features of the Code
 - Maximal use of pure function components
 - Separated `stateful` components in Containers
@@ -7,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Safer pattern when changing state based on previous state.
 - Passing references and properties between multiple components
 - Responsive and conditional rendered components.
-- 
+- AJAX communication with Firebase Real-time DB via Axios package.
 
 ## Available Scripts
 

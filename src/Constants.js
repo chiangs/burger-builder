@@ -1,5 +1,9 @@
 export const ADD = 'add';
 export const REMOVE = 'remove';
+
+export const DB = {
+	ORDERS: 'orders.json'
+};
 // export const INGREDIENT_TYPES = [
 // 	{ label: 'Salad', type: 'salad', price: 0.5 },
 // 	{ label: 'Bacon', type: 'bacon', price: 0.4 },
