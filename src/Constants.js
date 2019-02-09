@@ -5,3 +5,8 @@ export const DB = {
 	ORDERS: 'orders.json',
 	INGREDIENTS: 'ingredients.json'
 };
+
+export const ROUTES = {
+	INDEX: '/',
+	CHECKOUT: '/Checkout'
+};

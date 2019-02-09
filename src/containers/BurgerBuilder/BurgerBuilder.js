@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import { ADD, REMOVE, DB } from '../../Constants';
+import { ADD, REMOVE, DB, ROUTES } from '../../Constants';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Axios from '../../axios-orders';
@@ -84,30 +84,31 @@ class BurgerBuilder extends Component {
 	purchaseCancelHandler = () => this.setState({ orderBtnClicked: false });
 
 	purchaseContinueHandler = () => {
-		this.setState({ loading: true });
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.price,
-			deliveryMethod: 'fastest',
-			customer: {
-				name: 'Navn Navnesen',
-				email: 'email@email.email',
-				address: {
-					street: 'Gate',
-					city: 'By',
-					postal: '4025',
-					country: 'Norge'
-				}
-			}
-		};
-		Axios.post(DB.ORDERS, order)
-			.then(response => {
-				this.setState({ loading: false, orderBtnClicked: false });
-			})
-			.catch(error => {
-				this.setState({ loading: false, orderBtnClicked: false });
-				console.error(error);
-			});
+		this.props.history.push(ROUTES.CHECKOUT);
+		// this.setState({ loading: true });
+		// const order = {
+		// 	ingredients: this.state.ingredients,
+		// 	price: this.state.price,
+		// 	deliveryMethod: 'fastest',
+		// 	customer: {
+		// 		name: 'Navn Navnesen',
+		// 		email: 'email@email.email',
+		// 		address: {
+		// 			street: 'Gate',
+		// 			city: 'By',
+		// 			postal: '4025',
+		// 			country: 'Norge'
+		// 		}
+		// 	}
+		// };
+		// Axios.post(DB.ORDERS, order)
+		// 	.then(response => {
+		// 		this.setState({ loading: false, orderBtnClicked: false });
+		// 	})
+		// 	.catch(error => {
+		// 		this.setState({ loading: false, orderBtnClicked: false });
+		// 		console.error(error);
+		// 	});
 	};
 
 	render() {
@@ -135,7 +136,9 @@ class BurgerBuilder extends Component {
 
 			burgerBuilder = (
 				<Aux>
-					<Burger ingredients={this.state.ingredients} />
+					<div style={{ width: '40%', margin: 'auto' }}>
+						<Burger ingredients={this.state.ingredients} />
+					</div>
 					<BuildControls
 						ingredientAdded={this.addIngredientHandler}
 						ingredientRemoved={this.removeIngredientHandler}
