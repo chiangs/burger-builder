@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Auxiliary';
-import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import { ADD, REMOVE, DB, ROUTES } from '../../Constants';
-import Modal from '../../components/UI/Modal/Modal';
-import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Axios from '../../axios-orders';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Burger from '../../components/Burger/Burger';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import Modal from '../../components/UI/Modal/Modal';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { ADD, DB, REMOVE, ROUTES } from '../../Constants';
+import Aux from '../../hoc/Auxiliary';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
@@ -84,31 +84,18 @@ class BurgerBuilder extends Component {
 	purchaseCancelHandler = () => this.setState({ orderBtnClicked: false });
 
 	purchaseContinueHandler = () => {
-		this.props.history.push(ROUTES.CHECKOUT);
-		// this.setState({ loading: true });
-		// const order = {
-		// 	ingredients: this.state.ingredients,
-		// 	price: this.state.price,
-		// 	deliveryMethod: 'fastest',
-		// 	customer: {
-		// 		name: 'Navn Navnesen',
-		// 		email: 'email@email.email',
-		// 		address: {
-		// 			street: 'Gate',
-		// 			city: 'By',
-		// 			postal: '4025',
-		// 			country: 'Norge'
-		// 		}
-		// 	}
-		// };
-		// Axios.post(DB.ORDERS, order)
-		// 	.then(response => {
-		// 		this.setState({ loading: false, orderBtnClicked: false });
-		// 	})
-		// 	.catch(error => {
-		// 		this.setState({ loading: false, orderBtnClicked: false });
-		// 		console.error(error);
-		// 	});
+		const queryParams = [];
+		for (const i in this.state.ingredients) {
+			queryParams.push(
+				encodeURI(i) + '=' + encodeURI(this.state.ingredients[i])
+			);
+		}
+		queryParams.push('price=' + this.state.totalPrice);
+		const queryString = queryParams.join('&');
+		this.props.history.push({
+			pathname: ROUTES.CHECKOUT,
+			search: '?' + queryString
+		});
 	};
 
 	render() {

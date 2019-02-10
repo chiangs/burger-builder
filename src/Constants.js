@@ -8,5 +8,7 @@ export const DB = {
 
 export const ROUTES = {
 	INDEX: '/',
-	CHECKOUT: '/Checkout'
+	CHECKOUT: '/checkout',
+	CONTACT_DATA: '/contact-data',
+	ORDERS: '/orders'
 };
