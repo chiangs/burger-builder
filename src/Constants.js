@@ -2,11 +2,13 @@ export const ADD = 'add';
 export const REMOVE = 'remove';
 
 export const DB = {
-	ORDERS: 'orders.json'
+	ORDERS: 'orders.json',
+	INGREDIENTS: 'ingredients.json'
 };
-// export const INGREDIENT_TYPES = [
-// 	{ label: 'Salad', type: 'salad', price: 0.5 },
-// 	{ label: 'Bacon', type: 'bacon', price: 0.4 },
-// 	{ label: 'Cheese', type: 'cheese', price: 0.7 },
-// 	{ label: 'Meat', type: 'meat', price: 1 }
-// ];
+
+export const ROUTES = {
+	INDEX: '/',
+	CHECKOUT: '/checkout',
+	CONTACT_DATA: '/contact-data',
+	ORDERS: '/orders'
+};
