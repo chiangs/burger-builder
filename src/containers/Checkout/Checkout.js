@@ -6,11 +6,11 @@ import ContactData from './ContactData/ContactData';
 
 export default class Checkout extends Component {
 	state = {
-		ingredients: null,
+		ingredients: {},
 		price: 0
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		const query = new URLSearchParams(this.props.location.search);
 		const ingredients = {};
 		let price;
