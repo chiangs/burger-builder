@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Auxiliary';
 import Button from '../../UI/Button/Button';
 
@@ -30,7 +29,5 @@ const OderSummary = props => {
 		</Aux>
 	);
 };
-
-OderSummary.propTypes = {};
 
 export default OderSummary;
