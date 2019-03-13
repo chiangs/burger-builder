@@ -34,7 +34,7 @@ const withErrorHandler = (WrappedComponent, Axios) => {
 						modalClose={this.errorConfirmedHandler}>
 						{this.state.error ? this.state.error.message : null}
 					</Modal>
-					<WrappedComponent {...this.props} />;
+					<WrappedComponent {...this.props} />
 				</Aux>
 			);
 		}

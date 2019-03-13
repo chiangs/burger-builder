@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { INGREDIENT_PRICES } from '../../Constants';
+import { updateStateObj } from './_utility';
 
 const initialState = {
 	ingredients: null,
@@ -18,50 +19,68 @@ const updatePurchaseState = updatedIngredients => {
 };
 
 const burgerBuilder = (state = initialState, action) => {
+	let updatedProperties = {};
 	switch (action.type) {
 		case actionTypes.SET_INGREDIENTS:
-			return {
-				...state,
+			updatedProperties = {
 				ingredients: action.ingredients,
+				totalPrice: initialState.totalPrice,
 				loadError: false
 			};
+			return updateStateObj(state, updatedProperties);
 		case actionTypes.LOAD_ERROR:
-			return {
-				...state,
-				loadError: action.loadError
-			};
+			updatedProperties = { loadError: action.loadError };
+			return updateStateObj(state, updatedProperties);
 		case actionTypes.ADD_INGREDIENT:
-			return {
-				...state,
+			const updatedIngredients = {
 				ingredients: {
 					...state.ingredients,
 					[action.ingredientName]:
 						state.ingredients[action.ingredientName] + 1
-				},
-				totalPrice:
-					state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+				}
+			};
+			const purchasable = {
 				purchasable: updatePurchaseState({
 					...state.ingredients,
 					[action.ingredientName]:
 						state.ingredients[action.ingredientName] + 1
 				})
 			};
+			const updatedPrice = {
+				totalPrice:
+					state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+			};
+			updatedProperties = {
+				...updatedIngredients,
+				...updatedPrice,
+				...purchasable
+			};
+			return updateStateObj(state, updatedProperties);
 		case actionTypes.REMOVE_INGREDIENT:
-			return {
-				...state,
+			const updatedIng = {
 				ingredients: {
 					...state.ingredients,
 					[action.ingredientName]:
 						state.ingredients[action.ingredientName] - 1
-				},
+				}
+			};
+			const updatedPri = {
 				totalPrice:
-					state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+					state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+			};
+			const purchaseble2 = {
 				purchasable: updatePurchaseState({
 					...state.ingredients,
 					[action.ingredientName]:
 						state.ingredients[action.ingredientName] - 1
 				})
 			};
+			updatedProperties = {
+				...updatedIng,
+				...updatedPri,
+				...purchaseble2
+			};
+			return updateStateObj(state, updatedProperties);
 		default:
 			return state;
 	}

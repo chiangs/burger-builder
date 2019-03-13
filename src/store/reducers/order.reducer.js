@@ -1,63 +1,50 @@
 import * as actionTypes from '../actions/actionTypes';
-import { INGREDIENT_PRICES } from '../../Constants';
+import { updateStateObj } from './_utility';
 
 const initialState = {
-	ingredients: {
-		salad: 0,
-		bacon: 0,
-		cheese: 0,
-		meat: 0
-	},
-	totalPrice: 4,
-	purchasable: false
+	orders: [],
+	loading: false,
+	purchaseComplete: false
 };
 
-const updatePurchaseState = updatedIngredients => {
-	const ingredients = { ...updatedIngredients };
-	const sumArray = Object.values(ingredients);
-	const sum = sumArray.reduce((sum, el) => {
-		return sum + el;
-	}, 0);
-	return sum > 0;
-};
-
-const reducer = (state = initialState, action) => {
+const orderReducer = (state = initialState, action) => {
+	let updatedProperties = {};
 	switch (action.type) {
-		case actionTypes.ADD_INGREDIENT:
-			return {
-				...state,
-				ingredients: {
-					...state.ingredients,
-					[action.ingredientName]:
-						state.ingredients[action.ingredientName] + 1
-				},
-				totalPrice:
-					state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
-				purchasable: updatePurchaseState({
-					...state.ingredients,
-					[action.ingredientName]:
-						state.ingredients[action.ingredientName] + 1
-				})
+		case actionTypes.PURCHASE_START:
+			updatedProperties = { loading: true };
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.PURCHASE_SUCCESS:
+			const newOrder = {
+				...action.orderData,
+				id: action.orderId
 			};
-		case actionTypes.REMOVE_INGREDIENT:
-			return {
-				...state,
-				ingredients: {
-					...state.ingredients,
-					[action.ingredientName]:
-						state.ingredients[action.ingredientName] - 1
-				},
-				totalPrice:
-					state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
-				purchasable: updatePurchaseState({
-					...state.ingredients,
-					[action.ingredientName]:
-						state.ingredients[action.ingredientName] - 1
-				})
+			updatedProperties = {
+				...newOrder,
+				loading: false,
+				orders: state.orders.concat(newOrder),
+				purchaseComplete: true
 			};
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.PURCHASE_FAIL:
+			updatedProperties = { loading: false };
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.PURCHASE_INIT:
+			updatedProperties = {
+				purchaseComplete: false
+			};
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.LOAD_ORDERS_INIT:
+			updatedProperties = { loading: false };
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.LOAD_ORDERS_SUCCESS:
+			updatedProperties = { orders: action.orders, loading: false };
+			return updateStateObj(state, updatedProperties);
+		case actionTypes.LOAD_ORDERS_FAIL:
+			updatedProperties = { loading: false };
+			return updateStateObj(state, updatedProperties);
 		default:
 			return state;
 	}
 };
 
-export default reducer;
+export default orderReducer;

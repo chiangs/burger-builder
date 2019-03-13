@@ -11,8 +11,6 @@ class App extends Component {
 		return (
 			<div>
 				<Layout>
-					{/* <BurgerBuilder />
-					<Checkout /> */}
 					<Route path={ROUTES.CHECKOUT} component={Checkout} />
 					<Route
 						path={ROUTES.INDEX}
