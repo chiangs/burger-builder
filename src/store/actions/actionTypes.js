@@ -11,3 +11,7 @@ export const PURCHASE_INIT = 'PURCHASE_INIT';
 export const LOAD_ORDERS_INIT = 'LOAD_ORDERS_INIT';
 export const LOAD_ORDERS_SUCCESS = 'LOAD_ORDERS_SUCCESS';
 export const LOAD_ORDERS_FAIL = 'LOAD_ORDERS_FAIL';
+
+export const AUTH_INIT = 'AUTH_INIT';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';

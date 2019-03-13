@@ -3,6 +3,7 @@ import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
+import Auth from './containers/Auth/Auth';
 import { Route } from 'react-router-dom';
 import { ROUTES } from './Constants';
 
@@ -11,6 +12,7 @@ class App extends Component {
 		return (
 			<div>
 				<Layout>
+					<Route path={ROUTES.AUTH} component={Auth} />
 					<Route path={ROUTES.CHECKOUT} component={Checkout} />
 					<Route
 						path={ROUTES.INDEX}

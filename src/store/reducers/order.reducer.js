@@ -1,47 +1,76 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateStateObj } from './_utility';
 
+// * One way to further abstract the logic from the switch statement for easier reading
+
 const initialState = {
 	orders: [],
 	loading: false,
 	purchaseComplete: false
 };
 
+const purchaseStart = (state, action) => {
+	const updatedProperties = { loading: true };
+	return updateStateObj(state, updatedProperties);
+};
+
+const purchaseSuccess = (state, action) => {
+	const newOrder = {
+		...action.orderData,
+		id: action.orderId
+	};
+	const updatedProperties = {
+		...newOrder,
+		loading: false,
+		orders: state.orders.concat(newOrder),
+		purchaseComplete: true
+	};
+	return updateStateObj(state, updatedProperties);
+};
+
+const purchaseFail = (state, action) => {
+	const updatedProperties = { loading: false };
+	return updateStateObj(state, updatedProperties);
+};
+
+const purchaseInit = (state, action) => {
+	const updatedProperties = {
+		purchaseComplete: false
+	};
+	return updateStateObj(state, updatedProperties);
+};
+
+const loadOrdersInit = (state, action) => {
+	const updatedProperties = { loading: false };
+	return updateStateObj(state, updatedProperties);
+};
+
+const loadOrdersSuccess = (state, action) => {
+	const updatedProperties = { orders: action.orders, loading: false };
+	return updateStateObj(state, updatedProperties);
+};
+
+const loadOrdersFail = (state, action) => {
+	const updatedProperties = { loading: false };
+	return updateStateObj(state, updatedProperties);
+};
+
 const orderReducer = (state = initialState, action) => {
-	let updatedProperties = {};
 	switch (action.type) {
 		case actionTypes.PURCHASE_START:
-			updatedProperties = { loading: true };
-			return updateStateObj(state, updatedProperties);
+			return purchaseStart(state, action);
 		case actionTypes.PURCHASE_SUCCESS:
-			const newOrder = {
-				...action.orderData,
-				id: action.orderId
-			};
-			updatedProperties = {
-				...newOrder,
-				loading: false,
-				orders: state.orders.concat(newOrder),
-				purchaseComplete: true
-			};
-			return updateStateObj(state, updatedProperties);
+			return purchaseSuccess(state, action);
 		case actionTypes.PURCHASE_FAIL:
-			updatedProperties = { loading: false };
-			return updateStateObj(state, updatedProperties);
+			return purchaseFail(state, action);
 		case actionTypes.PURCHASE_INIT:
-			updatedProperties = {
-				purchaseComplete: false
-			};
-			return updateStateObj(state, updatedProperties);
+			return purchaseInit(state, action);
 		case actionTypes.LOAD_ORDERS_INIT:
-			updatedProperties = { loading: false };
-			return updateStateObj(state, updatedProperties);
+			return loadOrdersInit(state, action);
 		case actionTypes.LOAD_ORDERS_SUCCESS:
-			updatedProperties = { orders: action.orders, loading: false };
-			return updateStateObj(state, updatedProperties);
+			return loadOrdersSuccess(state, action);
 		case actionTypes.LOAD_ORDERS_FAIL:
-			updatedProperties = { loading: false };
-			return updateStateObj(state, updatedProperties);
+			return loadOrdersFail(state, action);
 		default:
 			return state;
 	}

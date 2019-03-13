@@ -10,7 +10,8 @@ export const ROUTES = {
 	INDEX: '/',
 	CHECKOUT: '/checkout',
 	CONTACT_DATA: '/contact-data',
-	ORDERS: '/orders'
+	ORDERS: '/orders',
+	AUTH: '/auth'
 };
 
 export const INGREDIENT_PRICES = {
