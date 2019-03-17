@@ -1,10 +1,12 @@
-import { AUTH_INIT, AUTH_SUCCESS, AUTH_FAIL } from './actionTypes';
+import { AUTH_INIT, AUTH_SUCCESS, AUTH_FAIL, LOGOUT } from './actionTypes';
 import axios from 'axios';
 
 const key = 'AIzaSyAPYs4H-CnJRORjOsd7q6u2-GZyeWsm5s4';
 const uri = {
 	signup:
-		'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key='
+		'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=',
+	signin:
+		'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key='
 };
 
 export const authInit = () => ({
@@ -21,7 +23,21 @@ export const authFail = error => ({
 	error: error
 });
 
-export const auth = (email, password) => {
+export const logout = () => ({
+	type: LOGOUT
+});
+
+export const checkAuthTimeout = expTime => {
+	return dispatch => {
+		setTimeout(() => {
+			dispatch(logout());
+		}, expTime * 1000);
+	};
+};
+
+export const auth = (email, password, isSignup) => {
+	console.log(email, password, isSignup);
+
 	return dispatch => {
 		dispatch(authInit());
 		const authData = {
@@ -29,16 +45,17 @@ export const auth = (email, password) => {
 			password: password,
 			returnSecureToken: true
 		};
-		const restURI = `${uri.signup}${key}`;
+		const restURI = isSignup
+			? `${uri.signup}${key}`
+			: `${uri.signin}${key}`;
 		axios
 			.post(restURI, authData)
 			.then(res => {
-				console.log(res);
 				dispatch(authSuccess(res.data));
+				dispatch(checkAuthTimeout(res.data.expiresIn));
 			})
 			.catch(error => {
-				console.error(error);
-				dispatch(authFail());
+				dispatch(authFail(error.response.data.error));
 			});
 	};
 };

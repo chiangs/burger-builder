@@ -4,6 +4,7 @@ import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import { auth } from '../../store/actions/auth.action';
 import css from './Auth.module.css';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
 	state = {
@@ -24,7 +25,8 @@ class Auth extends Component {
 				},
 				value: ''
 			}
-		}
+		},
+		isSignup: true
 	};
 
 	inputChangeHandler = (event, inputIdentifier) => {
@@ -39,8 +41,15 @@ class Auth extends Component {
 		event.preventDefault();
 		this.props.onAuth(
 			this.state.form.email.value,
-			this.state.form.password.value
+			this.state.form.password.value,
+			this.state.isSignup
 		);
+	};
+
+	switchAuthModeHandler = () => {
+		this.setState(prevState => ({
+			isSignup: !prevState.isSignup
+		}));
 	};
 
 	render() {
@@ -51,7 +60,7 @@ class Auth extends Component {
 				config: this.state.form[key]
 			});
 		}
-		const form = inputs.map(input => (
+		let form = inputs.map(input => (
 			<Input
 				key={input.id}
 				elementType={input.config.elementType}
@@ -60,23 +69,38 @@ class Auth extends Component {
 				changed={e => this.inputChangeHandler(e, input.id)}
 			/>
 		));
+		if (this.props.loading) form = <Spinner />;
+		const errorMsg = this.props.error ? (
+			<p>{this.props.error.message}</p>
+		) : null;
+
 		return (
 			<article className={css.Auth}>
 				<h4>Sign up / Sign in</h4>
+				{errorMsg}
 				<form onSubmit={this.submitHandler}>
 					{form}
 					<Button btnType="Success">Submit</Button>
 				</form>
+				<Button btnType="Danger" clicked={this.switchAuthModeHandler}>
+					Switch to {this.state.isSignup ? 'Sign in' : 'Sign up'}
+				</Button>
 			</article>
 		);
 	}
 }
 
+const mapStateToProps = state => ({
+	loading: state.auth.loading,
+	error: state.auth.error
+});
+
 const mapDispatchToProps = dispatch => ({
-	onAuth: (email, password) => dispatch(auth(email, password))
+	onAuth: (email, password, isSignup) =>
+		dispatch(auth(email, password, isSignup))
 });
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(Auth);

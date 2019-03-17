@@ -36,10 +36,12 @@ export const loadOrdersFail = error => ({
 
 export const loadOrdersInit = () => ({ type: actionTypes.LOAD_ORDERS_INIT });
 
-export const loadOrders = () => {
+export const loadOrders = token => {
 	return dispatch => {
 		dispatch(loadOrdersInit());
-		Axios.get('/orders.json')
+		console.log(token);
+
+		Axios.get('/orders.json?auth=' + token)
 			.then(res => {
 				const fetchedOrders = [];
 				for (let key in res.data) {
