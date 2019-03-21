@@ -21,3 +21,9 @@ export const INGREDIENT_PRICES = {
 	bacon: 0.7,
 	meat: 1
 };
+
+export const LOCAL_STORAGE = {
+	token: 'token',
+	expirationDate: 'expirationDate',
+	userId: 'userId'
+};
