@@ -11,7 +11,8 @@ export const ROUTES = {
 	CHECKOUT: '/checkout',
 	CONTACT_DATA: '/contact-data',
 	ORDERS: '/orders',
-	AUTH: '/auth'
+	AUTH: '/auth',
+	LOGOUT: '/logout'
 };
 
 export const INGREDIENT_PRICES = {

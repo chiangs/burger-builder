@@ -4,6 +4,7 @@ import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
 import { Route } from 'react-router-dom';
 import { ROUTES } from './Constants';
 
@@ -12,14 +13,15 @@ class App extends Component {
 		return (
 			<div>
 				<Layout>
-					<Route path={ROUTES.AUTH} component={Auth} />
 					<Route path={ROUTES.CHECKOUT} component={Checkout} />
+					<Route path={ROUTES.ORDERS} exact component={Orders} />
+					<Route path={ROUTES.AUTH} component={Auth} />
+					<Route path={ROUTES.LOGOUT} component={Logout} />
 					<Route
 						path={ROUTES.INDEX}
 						exact
 						component={BurgerBuilder}
 					/>
-					<Route path={ROUTES.ORDERS} exact component={Orders} />
 				</Layout>
 			</div>
 		);
