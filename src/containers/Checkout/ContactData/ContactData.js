@@ -6,6 +6,7 @@ import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import { purchase } from '../../../store/actions/order.action';
+import { LOCAL_STORAGE } from '../../../Constants';
 import css from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -82,12 +83,15 @@ class ContactData extends Component {
 	orderHandler = event => {
 		event.preventDefault();
 		const formData = this.transformFormData(this.state.orderForm);
+		const token = localStorage.getItem(LOCAL_STORAGE.token);
+
 		const order = {
 			ingredients: this.props.ingredients,
 			price: this.props.price,
-			orderData: formData
+			orderData: formData,
+			userId: this.props.userId
 		};
-		this.props.onOrder(order);
+		this.props.onOrder(order, token);
 	};
 
 	transformFormData = formDataObj => {
@@ -143,11 +147,12 @@ class ContactData extends Component {
 const mapStateToProps = state => ({
 	ingredients: state.burger.ingredients,
 	price: state.burger.totalPrice,
-	loading: state.order.loading
+	loading: state.order.loading,
+	userId: state.auth.userId
 });
 
 const mapDispatchToProps = dispatch => ({
-	onOrder: orderData => dispatch(purchase(orderData))
+	onOrder: (orderData, token) => dispatch(purchase(orderData, token))
 });
 
 export default connect(

@@ -36,12 +36,11 @@ export const loadOrdersFail = error => ({
 
 export const loadOrdersInit = () => ({ type: actionTypes.LOAD_ORDERS_INIT });
 
-export const loadOrders = token => {
+export const loadOrders = (token, userId) => {
 	return dispatch => {
 		dispatch(loadOrdersInit());
-		console.log(token);
-
-		Axios.get('/orders.json?auth=' + token)
+		const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+		Axios.get(`${DB.ORDERS}` + queryParams)
 			.then(res => {
 				const fetchedOrders = [];
 				for (let key in res.data) {
@@ -55,10 +54,10 @@ export const loadOrders = token => {
 	};
 };
 
-export const purchase = orderData => {
+export const purchase = (orderData, token) => {
 	return dispatch => {
 		dispatch(purchaseStart());
-		Axios.post(DB.ORDERS, orderData)
+		Axios.post(`${DB.ORDERS}?auth=` + token, orderData)
 			.then(response =>
 				dispatch(purchaseSuccess(response.data.name, orderData))
 			)
